@@ -1,19 +1,15 @@
 import Navigation from '@/components/layout/Header'
 import Hero from '@/components/sections/Hero'
-import Features from '@/components/sections/Features'
-import Benefits from '@/components/sections/Benefits'
-import Testimonials from '@/components/sections/Testimonials'
-import Contact from '@/components/sections/Contact'
+import Services from '@/components/sections/Services'
 import Footer from '@/components/layout/Footer'
+import Contact from '@/components/sections/Contact'
 
 export default function Home() {
   return (
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-white text-gray-900">
         <Navigation />
         <Hero />
-        <Features />
-        <Benefits />
-        <Testimonials />
+        <Services />
         <Contact />
         <Footer />
       </main>

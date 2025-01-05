@@ -4,9 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const navItems = [
-    { href: "#features", label: "Features" },
-    { href: "#benefits", label: "Benefits" },
-    { href: "#testimonials", label: "Testimonials" },
+    { href: "#services", label: "Services" },
     { href: "#contact", label: "Contact" }
 ];
 
@@ -18,7 +16,7 @@ const Header: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     <Link href="/" className="text-xl font-bold">
-                        <img src="/dailyflow-logo.png" alt="Logo" className="h-8 w-auto"/>
+                        <img src="/codecube-logo.png" alt="Logo" className="h-16 w-auto"/>
                     </Link>
 
                     {/* Desktop Navigation */}

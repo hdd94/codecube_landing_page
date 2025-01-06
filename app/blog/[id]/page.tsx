@@ -1,3 +1,4 @@
+// app/blog/[id]/page.tsx
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
@@ -5,11 +6,11 @@ import { blogPosts } from '@/lib/blog-data'
 import { formatDate } from '@/lib/utils'
 import { Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-interface Props {
-    params: {
-        id: string
-    }
+type Props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,19 +32,7 @@ export default function BlogPostPage({ params }: Props) {
     const post = blogPosts.find(p => p.id === params.id)
 
     if (!post) {
-        return (
-            <div className="container mx-auto px-4 py-16">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">Blog Post nicht gefunden</h1>
-                    <Link
-                        href="/blog"
-                        className="text-blue-600 hover:text-blue-700"
-                    >
-                        Zurück zur Blog-Übersicht
-                    </Link>
-                </div>
-            </div>
-        )
+        notFound()
     }
 
     return (
@@ -63,6 +52,7 @@ export default function BlogPostPage({ params }: Props) {
                         alt={post.title}
                         fill
                         className="object-cover rounded-xl"
+                        priority
                     />
                 </div>
 
@@ -113,4 +103,11 @@ export default function BlogPostPage({ params }: Props) {
             </div>
         </article>
     )
+}
+
+// Generiere statische Pfade für alle Blog-Posts
+export async function generateStaticParams() {
+    return blogPosts.map((post) => ({
+        id: post.id,
+    }))
 }

@@ -1,4 +1,3 @@
-// app/blog/[id]/page.tsx
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'

@@ -8,16 +8,17 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 type Props = {
-    params: { id: string }
+    params: Promise<{ id: string }>
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const post = blogPosts.find(p => p.id === params.id)
+    const { id } = await params
+    const post = blogPosts.find(p => p.id === id)
 
     if (!post) {
         return {
-            title: 'Blog Post nicht gefunden'
+            title: 'Blog Post not found'
         }
     }
 
@@ -27,8 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default function BlogPostPage({ params }: Props) {
-    const post = blogPosts.find(p => p.id === params.id)
+export default async function BlogPostPage({ params }: Props) {
+    const { id } = await params
+    const post = blogPosts.find(p => p.id === id)
 
     if (!post) {
         notFound()
@@ -42,7 +44,7 @@ export default function BlogPostPage({ params }: Props) {
                     className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Zurück zum Blog
+                    Back to Blog
                 </Link>
 
                 <div className="relative h-96 mb-8">
@@ -79,7 +81,7 @@ export default function BlogPostPage({ params }: Props) {
                             <span>{formatDate(post.publishedAt)}</span>
                             <div className="flex items-center">
                                 <Clock className="w-4 h-4 mr-1" />
-                                <span>{post.readTime} Min. Lesezeit</span>
+                                <span>{post.readTime} min read</span>
                             </div>
                         </div>
                     </div>
@@ -104,7 +106,7 @@ export default function BlogPostPage({ params }: Props) {
     )
 }
 
-// Generiere statische Pfade für alle Blog-Posts
+// Generate static paths for all blog posts
 export async function generateStaticParams() {
     return blogPosts.map((post) => ({
         id: post.id,

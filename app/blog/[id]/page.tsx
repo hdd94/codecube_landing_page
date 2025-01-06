@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { blogPosts } from '@/lib/blog-data'
@@ -6,21 +6,44 @@ import { formatDate } from '@/lib/utils'
 import { Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-async function getBlogPost(id: string) {
-    const post = blogPosts.find(p => p.id === id)
-    if (!post) return null
-    return post
+interface Props {
+    params: {
+        id: string
+    }
 }
 
-export default async function BlogPostPage({
-                                               params
-                                           }: {
-    params: { id: string }
-}) {
-    const post = await getBlogPost(params.id)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const post = blogPosts.find(p => p.id === params.id)
 
     if (!post) {
-        notFound()
+        return {
+            title: 'Blog Post nicht gefunden'
+        }
+    }
+
+    return {
+        title: post.title,
+        description: post.description
+    }
+}
+
+export default function BlogPostPage({ params }: Props) {
+    const post = blogPosts.find(p => p.id === params.id)
+
+    if (!post) {
+        return (
+            <div className="container mx-auto px-4 py-16">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold mb-4">Blog Post nicht gefunden</h1>
+                    <Link
+                        href="/blog"
+                        className="text-blue-600 hover:text-blue-700"
+                    >
+                        Zurück zur Blog-Übersicht
+                    </Link>
+                </div>
+            </div>
+        )
     }
 
     return (

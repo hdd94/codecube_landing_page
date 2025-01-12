@@ -1,7 +1,11 @@
-import { notFound } from 'next/navigation'
+import {notFound} from 'next/navigation'
 import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import { projects } from '@/lib/projects'
+import {Badge} from '@/components/ui/badge'
+import {projects} from '@/lib/projects'
+
+interface Props {
+    params: Promise<{ id: string }>
+}
 
 async function getProject(id: string) {
     const project = projects.find(p => p.id === id)
@@ -9,12 +13,9 @@ async function getProject(id: string) {
     return project
 }
 
-export default async function ProjectDetailPage({
-                                                    params
-                                                }: {
-    params: { id: string }
-}) {
-    const project = await getProject(params.id)
+export default async function ProjectDetailPage({params}: Props) {
+    const { id } = await params
+    const project = await getProject(id)
 
     if (!project) {
         notFound()

@@ -2,6 +2,14 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import {Viewport} from "next";
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    minimumScale: 1
+}
 
 // Font-Optimierung
 const inter = Inter({
@@ -24,7 +32,6 @@ export const metadata = {
     keywords: ['IT-Lösungen', 'Digitalisierung', 'Software-Entwicklung', 'Beratung'],
     robots: 'index, follow',
     // language: 'de',
-    viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
